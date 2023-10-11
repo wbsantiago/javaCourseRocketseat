@@ -3,12 +3,16 @@ package wbsantiago.todolist.user;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
 
 @RestController
 @RequestMapping("/users")
 public class userController {
     
+    @Autowired
+    private IUserRepository userRepository;
+
     /**
     * String (texto)
     * Integer (int) numeros inteiros
@@ -20,8 +24,9 @@ public class userController {
     */
 
     @PostMapping("/")
-    public void create(@RequestBody UserModel UserModel) {
-        System.out.println(UserModel.getUsername());
+    public UserModel create(@RequestBody UserModel UserModel) {
+        var userCreated = this.userRepository.save(UserModel);
+        return userCreated;
     }
 
 }
